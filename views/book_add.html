@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>book add</title>
+
+    <style>
+        html, body {
+
+        margin: 0px;
+
+        }
+
+        .header {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight:bolder;
+        color:rgb(243, 250, 215);
+        height: 60px;
+        line-height: 60px;
+        background-color: rgb(62, 238, 170);
+
+
+        }
+
+        .menu {
+
+        height: 40px;
+        line-height: 40px;
+        background-color: rgb(184, 248, 132);
+
+        }
+
+        h3{
+        color: mediumseagreen;
+        padding-left: 36em;
+        font-family: 'Courier New', Courier, monospace;
+
+        }
+
+        form{
+
+        margin-top: 10 px ;
+        font-family: 'Courier New', Courier, monospace;
+        }
+
+
+        .book-add-item{
+        margin-top: 10px;
+        
+        }
+
+
+        .book-add-item-name {
+        padding-left: 34em;
+        font-family: 'Courier New', Courier, monospace;
+
+        display: inline-block;
+        width: 100px;
+        }
+
+        button{
+        margin-left: 60em;
+        margin-top: 5px;
+        }
+
+
+    </style>
+    <script type="text/javascript" src="/resources/jquery-3.1.0.min.js"></script>
+
+</head>
+<body>
+
+    <div class="header" >
+        
+        <span class="title" style="font-size:40px;color:rgb(203, 252, 112);margin-left: 10px;"><b>Book Library</b></span>
+
+    
+    </div>
+
+
+    <div class="menu"></div>
+         
+  <h3>Book add</h3>
+  <div>
+      <form class="form-horizontal" enctype='multipart/form-data' method='post' action='javascript:;'>
+
+      <div class="book-add-item">
+          <span class="book-add-item-name">title:</span>
+          <input type="text"  id="title"/> </div>
+      <div class="book-add-item"></div>
+      <span class="book-add-item-name">author:</span>
+          <input type="text" id="author"/> </div>
+      <div class="book-add-item"></div>
+      <span class="book-add-item-name"style="margin-left: 0.4em;">ISBN:</span>
+      <input type="text" id="isbn"/> </div>
+      <div class="book-add-item"></div>
+      <span class="book-add-item-name"style="margin-left: 0.4em;">tag:</span>
+      <input type="text"  id="abstract"/> </div>
+      <div class="book-add-item"></div>
+      <span class="book-add-item-name">pic:</span>
+      <input type="file" id="pic" name="pic"/> </div>
+      <div class="book-add-item"></div><button type="button" style="background-color: rgb(76, 228, 190);margin-top: 9px;font-size: 20px; margin-left: 39em;  margin-right: 25em;" onclick="handle()">save</button></div>
+      </form>
+  </div>
+
+</body>
+
+<script>
+
+    function handle() {
+        let file = document.getElementById("pic").files[0];
+        var title=$.trim($("#title").val());
+        var author=$.trim($("#author").val());
+        var isbn=$.trim($("#isbn").val());
+        var tag=$.trim($("#abstract").val());
+
+
+        var formData = new FormData();
+        formData.append("pic",file);
+
+        formData.append("title",title);
+        formData.append("author",author);
+        formData.append("isbn",isbn);
+        formData.append("abstract",abstract);
+
+        $.ajax({
+            type: 'POST',
+            url: '/book_add',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                //$(".newImg").attr("src", data.filePath);
+                if(data.err){
+                    // alert(data.message);
+                    
+     
+                    alert(data.msg);
+                }else{
+                    window.location.href='/';
+
+                }
+
+            },
+            error: function (err) {
+                console.log(err.message);
+            }
+        })
+    }
+</script>
+
+<style>
+    body {
+      background-color: beige;
+      background-repeat: no-repeat;
+      background-attachment: fixed; 
+      background-size: 100% 100%;
+    }
+    </style>
+</body>
+</html>

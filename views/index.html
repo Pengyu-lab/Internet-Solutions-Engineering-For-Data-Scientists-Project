@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+
+</head>
+<body>
+<form class="form-horizontal" enctype='multipart/form-data' method='post' action='javascript:;'>
+    <input type="input" id="name" />
+    <input type="file" id="choose"/>
+    <button onclick="handle()">updata</button>
+    <img class="newImg"/>
+</form>
+
+<script>
+
+    function handle() {
+        let file = document.getElementById("choose").files[0];
+        let formData = new FormData();
+        formData.append("avatar", file);
+        formData.append("id", "sadfasdf")
+        $.ajax({
+            type: 'POST',
+            url: '/profile',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $(".newImg").attr("src", data.filePath);
+            },
+            error: function (err) {
+                console.log(err.message);
+            }
+        })
+    }
+</script>
+
+
+<style>
+    body {
+      background-image: url(../images/col.jpg);
+      background-repeat: no-repeat;
+      background-attachment: fixed; 
+      background-size: 100% 100%;
+    }
+    </style>
+</body>
+</html>

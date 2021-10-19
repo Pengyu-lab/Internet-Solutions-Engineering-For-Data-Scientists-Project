@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Library</title>
+    <style type="text/css">
+        html, body {
+
+        margin: 0px;
+
+        }
+        #bookTable th, #bookTable td{
+        border: 1px solid  #7f78eb;
+
+        }
+
+        .header {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight:bolder;
+        font-size: larger;
+        color:rgb(243, 250, 215);
+        height: 60px;
+        line-height: 60px;
+        background-color: rgb(62, 238, 170);
+        }
+
+        a{
+            font-size: larger;
+            font-family: 'Courier New', Courier, monospace;
+            
+        }
+
+        .title {
+
+        margin-left: 10px;
+        }
+        .user {
+
+        float:right;
+        margin-right: 30px;
+
+        }
+
+        .menu {
+
+        height: 40px;
+        line-height: 40px;
+        background-color: rgb(184, 248, 132);
+
+        }
+
+        .menu-item {
+
+        margin-left:10px;
+        color: white;
+        }
+
+        .content {
+
+        margin-top: 20px;
+        }
+        .book {
+
+        float: left;
+        width: 25%;
+        text-align: center;
+        height: 400px;
+        }
+        .book img {
+        width: 250px;
+        height: 250px;
+
+        }
+        .book p {
+
+
+        color:darkorange;
+        margin: auto;
+        width: 70%;
+        max-height: 40px;
+        word-wrap:break-word;
+        word-break:break-all;
+        overflow: hidden;
+
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <div class="header" >
+        
+        <span class="title" style="font-size:40px;color:rgb(203, 252, 112);"><b>Book Library</b></span>
+
+        <span class="user"><b>Hello, <%= username %>, <a href="logout" >logout</a></b></span>
+    
+    </div>
+
+
+    <div class="menu">
+         <a class="menu-item" style="color:blue" style="font-family: 'Courier New', Courier, monospace;"  href="books"><b>Home</b></a>
+         <a class="menu-item" href="shares"><b>Share</b></a>
+    </div>
+
+  
+    <div class="book_add" style=" float:right; margin-right: 20px; margin-top: 20px; margin-bottom: 20px;">
+        <a href="book_add" ><input type=button value="Add Book" style="background-color: rgb(76, 228, 190);"></input></a>
+   </div> 
+
+
+   <div style="clear:both"></div>
+    <div class="content">
+
+        <% for(var i=0;i<bookList.length;i++){%>
+
+        <div class="book">
+              <img src="<%=bookList[i].pic %>" style="width: 150px; height: 210px;"></img>
+              <p><%=bookList[i].title %></p>
+              <p><%=bookList[i].author %></p>
+              <p><%=bookList[i].isbn %></p>
+              <p><%=bookList[i].abstract %></p>
+              <p><a  href="/book_update/<%=bookList[i]._id %>">update</a>
+                <a href="javascript:del('<%=bookList[i]._id %>')">delete</a> 
+                <a href="javascript:share('<%=bookList[i]._id %>')">share</a>
+            </p>
+
+        </div>
+        <%}%>
+
+
+    </div>
+
+    <div style="clear:both"></div>
+    <style>
+        body {
+          background-color: beige;
+          background-repeat: no-repeat;
+          background-attachment: fixed; 
+          background-size: 100% 100%;
+        }
+        </style>
+    
+
+</body>
+</html>
+<script type="text/javascript" src="/resources/jquery-3.1.0.min.js"></script>
+<script>
+    function del(_id) {
+        if(confirm('sure delete?')){
+            $.ajax({
+                url:'/book_delete',
+                data:{
+                    _id:_id
+                },
+                type:'post',
+                dataType:'json',
+                success:function (data) {
+                    if(data.err){
+                       // alert(data.message);
+                        
+   
+                        alert(data.msg);
+                    }else{
+                        window.location.href='/';
+
+                    }
+                }
+            });
+        }
+
+    }
+
+
+    function share(_id) {
+        if(confirm('sure share?')){
+            $.ajax({
+                url:'/book_share',
+                data:{
+                    _id:_id
+                },
+                type:'post',
+                dataType:'json',
+                success:function (data) {
+                    if(data.err){
+                       // alert(data.message);
+                        
+
+                        alert(data.msg);
+                    }else{
+                        window.location.href='shares';
+
+                    }
+                }
+            });
+        }
+
+    }    
+    
+</script>

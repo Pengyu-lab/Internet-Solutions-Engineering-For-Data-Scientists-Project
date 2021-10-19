@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>book update</title>
+    <style>
+        html, body {
+
+        margin: 0px;
+
+        }
+
+        .header {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight:bolder;
+        color:rgb(243, 250, 215);
+        height: 60px;
+        line-height: 60px;
+        background-color: rgb(62, 238, 170);
+
+
+        }
+
+        .menu {
+
+        height: 40px;
+        line-height: 40px;
+        background-color: rgb(184, 248, 132);
+
+        }
+
+        h3{
+        color: mediumseagreen;
+        padding-left: 34em;
+        font-family: 'Courier New', Courier, monospace;
+
+        }
+
+        form{
+
+        margin-top: 10 px ;
+        font-family: 'Courier New', Courier, monospace;
+        }
+
+
+        .book-add-item{
+        margin-top: 10px;
+
+        }
+
+
+        .book-add-item-name {
+        margin-left: 34em;
+        font-family: 'Courier New';
+
+        display: inline-block;
+        width: 100px;
+        }
+
+        button{
+        margin-left: 60em;
+        margin-top: 5px;
+        }
+
+
+</style>
+<script type="text/javascript" src="/resources/jquery-3.1.0.min.js"></script>
+</head>
+
+
+<body>
+
+<div class="header" >
+
+    <span class="title" style="font-size:40px;color:rgb(203, 252, 112);margin-left: 10px;"><b>Book Library</b></span>
+
+
+</div>
+
+
+<div class="menu"></div>
+    <script type="text/javascript" src="/resources/jquery-3.1.0.min.js"></script>
+   
+</head>
+<body>
+<h3>Book Update</h3>
+
+
+<div>
+    <form class="form-horizontal" enctype='multipart/form-data' method='post' action='javascript:;'>
+        <input type="hidden" id="_id" value="<%=book._id%>"/>
+    <div class="book-add-item">
+        <span class="book-add-item-name">title:</span>
+        <input type="text"  id="title" value="<%=book.title%>"/> </div>
+    <div class="book-add-item"></div>
+        <span class="book-add-item-name">author:</span>
+        <input type="text" id="author" value="<%=book.author%>"/> </div>
+    <div class="book-add-item"></div>
+        <span class="book-add-item-name"style="margin-left: 34.4em;">isbn:</span>
+        <input type="text" id="isbn" value="<%=book.isbn%>"/> </div>
+    <div class="book-add-item"></div>
+        <span class="book-add-item-name" style="margin-left: 34.4em;">tag:</span>
+        <input type="text"  id="abstract" value="<%=book.abstract%>"/> </div>
+    <div class="book-add-item"></div>
+        <span class="book-add-item-name">pic:</span>
+
+    <%if(book.pic != "noimage"){%>
+        <img src="/<%=book.pic %>" style="margin-left: 0.7em;" width="150px" height="210px"/> <br/>
+      <%}else{%>
+        no image <br/>
+      <%}%>    
+
+    <input type="file" id="pic" name="pic"/ style= "margin-left: 54em;" > </div>
+    <div class="book-add-item"></div>
+    <button type="button" style="background-color: rgb(76, 228, 190);margin-top: 9px;font-size: 20px; margin-left: 39em;  margin-right: 25em;" onclick="update()">save</button></div>
+    </form>
+</div>
+
+<style>
+    body {
+      background-color: beige;
+      background-repeat: no-repeat;
+      background-attachment: fixed; 
+      background-size: 100% 100%;
+    }
+    </style>
+
+</body>
+</html>
+
+<script>
+
+    function update() {
+
+        
+
+
+        let file = document.getElementById("pic").files[0];
+        var title=$.trim($("#title").val());
+        var author=$.trim($("#author").val());
+        var isbn=$.trim($("#isbn").val());
+        var tag=$.trim($("#abstract").val());
+        var _id=$("#_id").val();
+
+        var formData = new FormData();
+        formData.append("pic",file);
+
+        formData.append("title",title);
+        formData.append("author",author);
+        formData.append("isbn",isbn);
+        formData.append("abstract",abstract);
+        formData.append("_id",_id);
+
+        $.ajax({
+            type: 'POST',
+            url: '/book_update',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                //$(".newImg").attr("src", data.filePath);
+                if(data.err){
+                    // alert(data.message);
+                    
+                    //fail
+                    alert(data.msg);
+                }else{
+                    window.location.href='/';
+
+                }
+
+            },
+            error: function (err) {
+                console.log(err.message);
+            }
+        })
+
+
+
+
+    }
+
+</script>
